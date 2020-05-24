@@ -48,6 +48,7 @@ export default {
           this.$refs.login_fromref.validate(async valid => {
             if (!valid) return
             const { data: res } = await this.$http.post('login', this.login_from)
+            // console.log(res)
             if (res.meta.status !== 200) return this.$message.error('登录失败！')
             this.$message.success('登录成功')
             window.sessionStorage.setItem("token", res.data.token)
