@@ -52,7 +52,7 @@
                     <el-button type="primary" icon="el-icon-edit" circle size="mini" @click="showEditDialog(scope.row.id)" ></el-button>
                     <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="removeUser(scope.row.id)" ></el-button>
                      <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-                    <el-button type="warning" icon="el-icon-setting" circle size="mini"@click="change(scope.row)"></el-button>
+                    <el-button type="warning" icon="el-icon-setting" circle size="mini" @click="change(scope.row)"></el-button>
                     </el-tooltip>
                 </template>
                 </el-table-column>
