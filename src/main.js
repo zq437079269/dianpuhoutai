@@ -25,7 +25,11 @@ import {
         Tooltip,
         Pagination,
         Dialog,
-        MessageBox
+        MessageBox,
+        Tag,
+        Tree,
+        Select,
+        Option
                 } from 'element-ui';
 import './assets/css/global.css'
 import {Message} from "element-ui"
@@ -63,6 +67,14 @@ Vue.component(Switch.name, Switch);
 Vue.component(Tooltip.name, Tooltip);
 Vue.component(Pagination.name, Pagination);
 Vue.component(Dialog.name, Dialog);
+Vue.component(Tag.name, Tag);
+Vue.component(Tree.name, Tree);
+Vue.component(Select.name, Select);
+Vue.component(Option.name, Option);
+
+
+
+
 
 
 Vue.prototype.$message = Message

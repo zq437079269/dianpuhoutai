@@ -52,7 +52,7 @@
                     <el-button type="primary" icon="el-icon-edit" circle size="mini" @click="showEditDialog(scope.row.id)" ></el-button>
                     <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="removeUser(scope.row.id)" ></el-button>
                      <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-                    <el-button type="warning" icon="el-icon-setting" circle size="mini" ></el-button>
+                    <el-button type="warning" icon="el-icon-setting" circle size="mini"@click="change(scope.row)"></el-button>
                     </el-tooltip>
                 </template>
                 </el-table-column>
@@ -115,6 +115,23 @@
                 <el-button type="primary" @click="editUser">确 定</el-button>
             </span>
         </el-dialog>
+        <!-- 分配角色 -->
+        <el-dialog title="分配角色" :visible.sync="xianshifenpeikuang" width="50%" @close="guanbitankuang">
+      <div>
+        <p>当前的用户：{{beifenpeijiaosexinxi.username}}</p>
+        <p>当前的角色：{{beifenpeijiaosexinxi.role_name}}</p>
+        <p>分配新角色：
+          <el-select v-model="yixuanjueseID" placeholder="请选择">
+            <el-option v-for="item in jueseshujuliebiao" :key="item.id" :label="item.roleName" :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="xianshifenpeikuang = false">取 消</el-button>
+        <el-button type="primary" @click="quedingxiugai">确 定</el-button>
+      </span>
+    </el-dialog>
     </div>
 </template>
 <script>
@@ -191,7 +208,11 @@ export default {
             { required: true, message: '请输入合法手机号', trigger: 'blur' },
             { validator: checkMobile, trigger: 'blur' } 
             ]
-        }
+        },
+        xianshifenpeikuang:false,
+        beifenpeijiaosexinxi:{},
+        jueseshujuliebiao:[],
+        yixuanjueseID:''
         }
     },
     created(){
@@ -204,7 +225,7 @@ export default {
                 return this.$message.error('获取用户列表错误');
                 
             }
-            console.log(res.data.users)
+            // console.log(res.data.users)
             this.userList = res.data.users
             this.total = res.data.total
         },
@@ -285,21 +306,51 @@ export default {
                 this.$message.success('删除用户成功')
                 this.getUserList()
                 // this.queryInfo.pagenum = 1
+            },
+            async change(value) {
+            this.beifenpeijiaosexinxi = value
+
+            // 在展示对话框之前，获取所有角色的列表
+            const { data: res } = await this.$http.get('roles')
+            if (res.meta.status !== 200) {
+                return this.$message.error('获取角色列表失败！')
             }
-    }
-    
+
+            this.jueseshujuliebiao = res.data
+
+            this.xianshifenpeikuang = true
+            },
+        // 点击按钮，分配角色
+        async quedingxiugai() {
+        if (!this.yixuanjueseID) {
+            return this.$message.error('请选择要分配的角色！')
+        }
+
+        const { data: res } = await this.$http.put(
+            `users/${this.beifenpeijiaosexinxi.id}/role`,
+            {
+            rid: this.yixuanjueseID
+            }
+        )
+
+        if (res.meta.status !== 200) {
+            return this.$message.error('更新角色失败！')
+        }
+
+        this.$message.success('更新角色成功！')
+        this.getUserList()
+        this.xianshifenpeikuang = false
+        },
+        // 监听分配角色对话框的关闭事件
+        guanbitankuang() {
+        this.yixuanjueseID = ''
+        this.beifenpeijiaosexinxi = {}
+        }
+
+        }
+        
 }
 </script>
 <style lang="less" scoped>
-.el-breadcrumb{
-    margin-bottom: 15px;
-    font-size: 12px;
-}
-.el-button{
-    margin-top: 3px;
-}
-.el-table{
-    margin-top: 15px;
-    font-size: 12px;
-}
+
 </style>
