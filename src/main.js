@@ -29,13 +29,14 @@ import {
         Tag,
         Tree,
         Select,
-        Option
+        Option,
+        Cascader
                 } from 'element-ui';
 import './assets/css/global.css'
 import {Message} from "element-ui"
+import TreeTable from "vue-table-with-tree-grid"
+
 import axios from "axios"
-
-
 axios.defaults.baseURL = `http://47.115.124.102:8888/api/private/v1/`
 // 请求拦截器  
 axios.interceptors.request.use(config=>{
@@ -71,10 +72,8 @@ Vue.component(Tag.name, Tag);
 Vue.component(Tree.name, Tree);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
-
-
-
-
+Vue.component('TreeTable', TreeTable);
+Vue.component(Cascader.name, Cascader);
 
 
 Vue.prototype.$message = Message
