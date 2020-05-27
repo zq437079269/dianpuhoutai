@@ -30,7 +30,10 @@ import {
         Tree,
         Select,
         Option,
-        Cascader
+        Cascader,
+        Alert,
+        Tabs,
+        TabPane
                 } from 'element-ui';
 import './assets/css/global.css'
 import {Message} from "element-ui"
@@ -74,6 +77,9 @@ Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component('TreeTable', TreeTable);
 Vue.component(Cascader.name, Cascader);
+Vue.component(Alert.name, Alert);
+Vue.component(Tabs.name, Tabs);
+Vue.component(TabPane.name, TabPane);
 
 
 Vue.prototype.$message = Message
